@@ -12,10 +12,19 @@ const appendAttendance = async (data) => {
     }
 
     try {
-        const auth = new google.auth.GoogleAuth({
-            keyFile: CREDENTIALS_PATH,
-            scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-        });
+        let auth;
+        if (process.env.GOOGLE_CREDENTIALS) {
+            const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS);
+            auth = new google.auth.GoogleAuth({
+                credentials,
+                scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+            });
+        } else {
+            auth = new google.auth.GoogleAuth({
+                keyFile: CREDENTIALS_PATH,
+                scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+            });
+        }
 
         const sheets = google.sheets({ version: 'v4', auth });
 
