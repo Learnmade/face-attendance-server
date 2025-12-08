@@ -1,3 +1,10 @@
+// Load TensorFlow Node backend for performance (Cloud only)
+try {
+    require('@tensorflow/tfjs-node');
+} catch (e) {
+    console.log('TensorFlow Node backend not found - using vanilla JS (slower)');
+}
+
 const faceApi = require('face-api.js');
 const canvas = require('canvas');
 const path = require('path');
