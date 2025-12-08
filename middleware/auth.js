@@ -1,4 +1,4 @@
-const MANAGER_PIN = process.env.MANAGER_PIN || '1234';
+const MANAGER_PIN = process.env.MANAGER_PIN || '1234'; // Default PIN is 1234
 
 const authenticateManager = (req, res, next) => {
     const authHeader = req.headers.authorization;

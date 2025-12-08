@@ -28,9 +28,13 @@ const appendAttendance = async (data) => {
 
         const sheets = google.sheets({ version: 'v4', auth });
 
+        // Format timestamp to readable local time (IST)
+        const dateObj = new Date(data.timestamp);
+        const dateStr = dateObj.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+
         // Data: [EmployeeID, Name, Type, Timestamp]
         const values = [
-            [data.employeeId, data.name, data.type, data.timestamp]
+            [data.employeeId, data.name, data.type, dateStr]
         ];
 
         await sheets.spreadsheets.values.append({
