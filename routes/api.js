@@ -8,6 +8,11 @@ const { getFaceDescriptor, matchFace } = require('../services/faceRecognition');
 const { authenticateManager } = require('../middleware/auth');
 
 // Export Attendance
+router.post('/verify', authenticateManager, (req, res) => {
+    // If middleware passes, PIN is valid
+    res.json({ success: true });
+});
+
 router.get('/export-attendance', authenticateManager, async (req, res) => {
     try {
         const rows = await getAttendanceLogs();
