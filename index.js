@@ -2,6 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+
+// Suppress TensorFlow AVX/FMA warnings
+process.env.TF_CPP_MIN_LOG_LEVEL = '2';
 const bodyParser = require('body-parser');
 
 const app = express();
