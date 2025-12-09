@@ -13,6 +13,11 @@ router.post('/verify', authenticateManager, (req, res) => {
     res.json({ success: true });
 });
 
+// Lightweight Health Check for UptimeRobot
+router.get('/health', (req, res) => {
+    res.status(200).send('OK');
+});
+
 router.get('/export-attendance', authenticateManager, async (req, res) => {
     try {
         const rows = await getAttendanceLogs();
