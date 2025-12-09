@@ -19,11 +19,11 @@ const loadModels = async () => {
     const modelsPath = path.join(__dirname, '../models');
 
     try {
-        await faceApi.nets.ssdMobilenetv1.loadFromDisk(modelsPath);
+        await faceApi.nets.tinyFaceDetector.loadFromDisk(modelsPath); // Lighter than SSD
         await faceApi.nets.faceLandmark68Net.loadFromDisk(modelsPath);
         await faceApi.nets.faceRecognitionNet.loadFromDisk(modelsPath);
         modelsLoaded = true;
-        console.log('FaceAPI Models loaded successfully');
+        console.log('FaceAPI Models loaded successfully (Using TinyFaceDetector)');
     } catch (error) {
         console.error('Failed to load FaceAPI models:', error);
         throw error; // Critical failure
@@ -35,8 +35,11 @@ const getFaceDescriptor = async (base64Image) => {
 
     try {
         const img = await canvas.loadImage(base64Image);
-        // detectSingleFace with ssdMobilenetv1 is accurate for this usecase
-        const detection = await faceApi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
+
+        // Use TinyFaceDetectorOptions for speed/memory efficiency
+        const detection = await faceApi.detectSingleFace(img, new faceApi.TinyFaceDetectorOptions())
+            .withFaceLandmarks()
+            .withFaceDescriptor();
 
         if (!detection) {
             return null; // No face detected
